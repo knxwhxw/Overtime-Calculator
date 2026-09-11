@@ -3,89 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overtime Calculator</title>
+    <title>4our (포아워)</title>
+    <!-- Adobe Fonts (Typekit) Mina & Google Fonts Noto Sans KR -->
+    <link rel="stylesheet" href="https://use.typekit.net/wst5cyn.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background-color: #0f1319;
+            /* 아이콘 배경색인 라벤더/퍼플 톤 반영 */
+            background: linear-gradient(135deg, #2a1b40 0%, #181124 100%);
             color: #ffffff;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;    /* 요소들을 세로(위->아래) 방향으로 배치 */
+            justify-content: center;   /* 세로 중앙 정렬 */
+            align-items: center;       /* 가로 중앙 정렬 */
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
-            background-color: #121824;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-            border: 1px solid #1e293b;
+            max-width: 500px;
+            background-color: rgba(36, 25, 56, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
+            padding: 32px 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(181, 126, 255, 0.15);
+            border: 1px solid rgba(216, 180, 254, 0.2);
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
-        .title {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #ffffff;
+        .brand-area {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            font-family: "mina", mina, sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 38px;
+            color: #e9d5ff;
+            line-height: 1;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 12px rgba(216, 180, 254, 0.4);
+        }
+
+        .brand-sub {
+            font-size: 15px;
+            color: #c084fc;
+            font-weight: 400;
+            letter-spacing: 1px;
         }
 
         .header-actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .icon-btn {
-            background-color: #242e3e;
-            border: none;
-            color: #94a3b8;
-            width: 44px;
-            height: 44px;
+            background-color: rgba(192, 132, 252, 0.12);
+            border: 1px solid rgba(216, 180, 254, 0.2);
+            color: #d8b4fe;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .icon-btn:hover {
-            background-color: #334155;
+            background-color: rgba(192, 132, 252, 0.3);
             color: #ffffff;
+            transform: scale(1.05);
         }
 
         .icon-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             fill: currentColor;
         }
 
         /* Card Panels */
         .results-panel {
-            background-color: #17202e;
-            border: 1px solid #233044;
-            border-radius: 12px;
-            padding: 20px 16px;
+            background: linear-gradient(145deg, rgba(58, 41, 88, 0.6), rgba(38, 25, 60, 0.8));
+            border: 1px solid rgba(216, 180, 254, 0.25);
+            border-radius: 20px;
+            padding: 22px 16px;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             position: relative;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         .result-item {
@@ -100,40 +129,40 @@
             top: 15%;
             height: 70%;
             width: 1px;
-            background-color: #2e3e55;
+            background-color: rgba(216, 180, 254, 0.15);
         }
 
         .result-label {
-            font-size: 13px;
-            color: #94a3b8;
+            font-size: 12px;
+            color: #c084fc;
             margin-bottom: 8px;
             font-weight: 500;
         }
 
         .result-value {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
         }
 
-        .result-value.cyan { color: #38bdf8; }
-        .result-value.purple { color: #c084fc; }
-        .result-value.green { color: #4ade80; }
+        .result-value.purple-light { color: #f3e8ff; }
+        .result-value.lavender { color: #c084fc; text-shadow: 0 0 10px rgba(192, 132, 252, 0.3); }
+        .result-value.accent { color: #e879f9; text-shadow: 0 0 10px rgba(232, 121, 249, 0.3); }
 
         /* Inputs Section */
         .inputs-panel {
-            background-color: #17202e;
-            border: 1px solid #233044;
-            border-radius: 12px;
-            padding: 20px;
+            background: rgba(26, 18, 42, 0.5);
+            border: 1px solid rgba(216, 180, 254, 0.15);
+            border-radius: 20px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
         }
 
         .input-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 14px;
         }
 
         .input-row.full {
@@ -142,49 +171,63 @@
 
         .input-group {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .input-label {
-            font-size: 14px;
-            color: #e2e8f0;
-            width: 110px;
-            flex-shrink: 0;
+            font-size: 13px;
+            color: #d8b4fe;
             font-weight: 500;
+            padding-left: 2px;
         }
 
         .time-input {
             width: 100%;
-            background-color: #0f172a;
-            border: 1px solid #223046;
-            border-radius: 8px;
-            padding: 12px 16px;
+            background-color: rgba(15, 10, 26, 0.6);
+            border: 1px solid rgba(216, 180, 254, 0.2);
+            border-radius: 12px;
+            padding: 12px 14px;
             color: #ffffff;
             font-size: 16px;
             font-weight: 600;
             letter-spacing: 0.5px;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
         }
 
         .time-input:focus {
-            border-color: #3b82f6;
+            border-color: #c084fc;
+            box-shadow: 0 0 12px rgba(192, 132, 252, 0.3);
+            background-color: rgba(15, 10, 26, 0.85);
         }
 
-        @media (max-width: 640px) {
+        /* Footer Style */
+        .footer-credit {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(216, 180, 254, 0.5);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px 18px;
+            }
             .results-panel {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 18px;
+                padding: 20px;
             }
             .result-item:not(:last-child)::after {
                 display: none;
             }
+            .result-value {
+                font-size: 26px;
+            }
             .input-row {
                 grid-template-columns: 1fr;
-            }
-            .input-label {
-                width: 100px;
             }
         }
     </style>
@@ -193,7 +236,10 @@
 
 <div class="container">
     <div class="header">
-        <h1 class="title">Overtime Calculator</h1>
+        <div class="brand-area">
+            <span class="brand-logo">4our</span>
+            <span class="brand-sub">포아워</span>
+        </div>
         <div class="header-actions">
             <button class="icon-btn" onclick="resetDefaults()" title="새로고침">
                 <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
@@ -207,16 +253,16 @@
     <!-- Results Panel -->
     <div class="results-panel">
         <div class="result-item">
-            <div class="result-label">희망 초과 달성 퇴근</div>
-            <div class="result-value cyan" id="targetLeave">--:--</div>
+            <div class="result-label">희망 초과 달성</div>
+            <div class="result-value purple-light" id="targetLeave">--:--</div>
         </div>
         <div class="result-item">
-            <div class="result-label">최대(4시간) 달성 퇴근</div>
-            <div class="result-value purple" id="maxLeave">--:--</div>
+            <div class="result-label">4our 달성</div>
+            <div class="result-value lavender" id="maxLeave">--:--</div>
         </div>
         <div class="result-item">
-            <div class="result-label">인정 초과근무 시간</div>
-            <div class="result-value green" id="actualOt">0.0h</div>
+            <div class="result-label">인정 초과시간</div>
+            <div class="result-value accent" id="actualOt">0.0h</div>
         </div>
     </div>
 
@@ -235,23 +281,27 @@
 
         <div class="input-row">
             <div class="input-group">
-                <label class="input-label">제외 시작시간</label>
+                <label class="input-label">제외 시작</label>
                 <input type="text" id="exStart" class="time-input" value="00:00" placeholder="HH:MM" oninput="calculate()">
             </div>
             <div class="input-group">
-                <label class="input-label">제외 종료시간</label>
+                <label class="input-label">제외 종료</label>
                 <input type="text" id="exEnd" class="time-input" value="00:00" placeholder="HH:MM" oninput="calculate()">
             </div>
         </div>
 
         <div class="input-row full">
             <div class="input-group">
-                <label class="input-label">희망 초과근무 시간</label>
+                <label class="input-label">희망 초과 시간</label>
                 <input type="text" id="desiredOt" class="time-input" value="04:00" placeholder="HH:MM" oninput="calculate()">
             </div>
         </div>
     </div>
 </div>
+
+<footer class="footer-credit">
+    Created by knxwhxw
+</footer>
 
 <script>
     function parseMinutes(timeStr) {
@@ -278,28 +328,25 @@
         const exEndMins = parseMinutes(document.getElementById('exEnd').value);
         const desiredMins = parseMinutes(document.getElementById('desiredOt').value);
 
-        // Calculate Excluded Duration
         let exDuration = 0;
         if (exStartMins !== null && exEndMins !== null && exEndMins > exStartMins) {
             exDuration = exEndMins - exStartMins;
         }
 
-        // 1. Target Leave Time for Desired Overtime
         if (inMins !== null && desiredMins !== null) {
             let targetLeaveMins = 0;
-            if (inMins < 480) { // Early arrival (<08:00)
+            if (inMins < 480) {
                 const morningOt = 480 - inMins;
                 const remainingNeeded = Math.max(0, desiredMins - morningOt);
-                targetLeaveMins = 1080 + remainingNeeded + exDuration; // 18:00 = 1080
-            } else { // Standard / Late arrival (>=08:00)
-                targetLeaveMins = 1140 + desiredMins + exDuration; // 19:00 = 1140
+                targetLeaveMins = 1080 + remainingNeeded + exDuration;
+            } else {
+                targetLeaveMins = 1140 + desiredMins + exDuration;
             }
             document.getElementById('targetLeave').innerText = formatTime(targetLeaveMins);
         } else {
             document.getElementById('targetLeave').innerText = "--:--";
         }
 
-        // 2. Target Leave Time for Max Overtime (4 Hours = 240 Mins)
         if (inMins !== null) {
             let maxLeaveMins = 0;
             if (inMins < 480) {
@@ -314,14 +361,13 @@
             document.getElementById('maxLeave').innerText = "--:--";
         }
 
-        // 3. Actual Recognized Overtime
         if (inMins !== null && outMins !== null && outMins > inMins) {
             let grossOt = 0;
-            if (inMins < 480) { // Morning + Evening OT
+            if (inMins < 480) {
                 const morningOt = 480 - inMins;
                 const eveningOt = Math.max(0, outMins - 1080);
                 grossOt = morningOt + eveningOt;
-            } else { // Evening OT only
+            } else {
                 grossOt = Math.max(0, outMins - 1140);
             }
             let netOtMins = Math.max(0, grossOt - exDuration);
@@ -352,9 +398,7 @@
         document.getElementById('actualOt').innerText = "0.0h";
     }
 
-    // Initial calculation on load
     calculate();
 </script>
-
 </body>
 </html>
