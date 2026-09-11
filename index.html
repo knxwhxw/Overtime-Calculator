@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overtime Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0f1319;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #121824;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid #1e293b;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background-color: #242e3e;
+            border: none;
+            color: #94a3b8;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            background-color: #334155;
+            color: #ffffff;
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Card Panels */
+        .results-panel {
+            background-color: #17202e;
+            border: 1px solid #233044;
+            border-radius: 12px;
+            padding: 20px 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .result-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .result-item:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background-color: #2e3e55;
+        }
+
+        .result-label {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .result-value.cyan { color: #38bdf8; }
+        .result-value.purple { color: #c084fc; }
+        .result-value.green { color: #4ade80; }
+
+        /* Inputs Section */
+        .inputs-panel {
+            background-color: #17202e;
+            border: 1px solid #233044;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .input-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #e2e8f0;
+            width: 110px;
+            flex-shrink: 0;
+            font-weight: 500;
+        }
+
+        .time-input {
+            width: 100%;
+            background-color: #0f172a;
+            border: 1px solid #223046;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .time-input:focus {
+            border-color: #3b82f6;
+        }
+
+        @media (max-width: 640px) {
+            .results-panel {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .result-item:not(:last-child)::after {
+                display: none;
+            }
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+            .input-label {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1 class="title">Overtime Calculator</h1>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="resetDefaults()" title="새로고침">
+                <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+            </button>
+            <button class="icon-btn" onclick="clearAll()" title="전체 지우기">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="results-panel">
+        <div class="result-item">
+            <div class="result-label">희망 초과 달성 퇴근</div>
+            <div class="result-value cyan" id="targetLeave">--:--</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">최대(4시간) 달성 퇴근</div>
+            <div class="result-value purple" id="maxLeave">--:--</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">인정 초과근무 시간</div>
+            <div class="result-value green" id="actualOt">0.0h</div>
+        </div>
+    </div>
+
+    <!-- Inputs Panel -->
+    <div class="inputs-panel">
+        <div class="input-row">
+            <div class="input-group">
+                <label class="input-label">출근 시간</label>
+                <input type="text" id="clockIn" class="time-input" value="07:00" placeholder="HH:MM" oninput="calculate()">
+            </div>
+            <div class="input-group">
+                <label class="input-label">퇴근 시간</label>
+                <input type="text" id="clockOut" class="time-input" value="21:00" placeholder="HH:MM" oninput="calculate()">
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="input-group">
+                <label class="input-label">제외 시작시간</label>
+                <input type="text" id="exStart" class="time-input" value="00:00" placeholder="HH:MM" oninput="calculate()">
+            </div>
+            <div class="input-group">
+                <label class="input-label">제외 종료시간</label>
+                <input type="text" id="exEnd" class="time-input" value="00:00" placeholder="HH:MM" oninput="calculate()">
+            </div>
+        </div>
+
+        <div class="input-row full">
+            <div class="input-group">
+                <label class="input-label">희망 초과근무 시간</label>
+                <input type="text" id="desiredOt" class="time-input" value="04:00" placeholder="HH:MM" oninput="calculate()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function parseMinutes(timeStr) {
+        if (!timeStr || !timeStr.includes(':')) return null;
+        const parts = timeStr.split(':');
+        const h = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10);
+        if (isNaN(h) || isNaN(m)) return null;
+        return h * 60 + m;
+    }
+
+    function formatTime(totalMins) {
+        if (totalMins === null || isNaN(totalMins)) return "--:--";
+        let mins = (totalMins % 1440 + 1440) % 1440;
+        const h = Math.floor(mins / 60);
+        const m = mins % 60;
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
+    function calculate() {
+        const inMins = parseMinutes(document.getElementById('clockIn').value);
+        const outMins = parseMinutes(document.getElementById('clockOut').value);
+        const exStartMins = parseMinutes(document.getElementById('exStart').value);
+        const exEndMins = parseMinutes(document.getElementById('exEnd').value);
+        const desiredMins = parseMinutes(document.getElementById('desiredOt').value);
+
+        // Calculate Excluded Duration
+        let exDuration = 0;
+        if (exStartMins !== null && exEndMins !== null && exEndMins > exStartMins) {
+            exDuration = exEndMins - exStartMins;
+        }
+
+        // 1. Target Leave Time for Desired Overtime
+        if (inMins !== null && desiredMins !== null) {
+            let targetLeaveMins = 0;
+            if (inMins < 480) { // Early arrival (<08:00)
+                const morningOt = 480 - inMins;
+                const remainingNeeded = Math.max(0, desiredMins - morningOt);
+                targetLeaveMins = 1080 + remainingNeeded + exDuration; // 18:00 = 1080
+            } else { // Standard / Late arrival (>=08:00)
+                targetLeaveMins = 1140 + desiredMins + exDuration; // 19:00 = 1140
+            }
+            document.getElementById('targetLeave').innerText = formatTime(targetLeaveMins);
+        } else {
+            document.getElementById('targetLeave').innerText = "--:--";
+        }
+
+        // 2. Target Leave Time for Max Overtime (4 Hours = 240 Mins)
+        if (inMins !== null) {
+            let maxLeaveMins = 0;
+            if (inMins < 480) {
+                const morningOt = 480 - inMins;
+                const remainingFor4h = Math.max(0, 240 - morningOt);
+                maxLeaveMins = 1080 + remainingFor4h + exDuration;
+            } else {
+                maxLeaveMins = 1140 + 240 + exDuration;
+            }
+            document.getElementById('maxLeave').innerText = formatTime(maxLeaveMins);
+        } else {
+            document.getElementById('maxLeave').innerText = "--:--";
+        }
+
+        // 3. Actual Recognized Overtime
+        if (inMins !== null && outMins !== null && outMins > inMins) {
+            let grossOt = 0;
+            if (inMins < 480) { // Morning + Evening OT
+                const morningOt = 480 - inMins;
+                const eveningOt = Math.max(0, outMins - 1080);
+                grossOt = morningOt + eveningOt;
+            } else { // Evening OT only
+                grossOt = Math.max(0, outMins - 1140);
+            }
+            let netOtMins = Math.max(0, grossOt - exDuration);
+            let netOtHours = Math.min(4.0, netOtMins / 60);
+            document.getElementById('actualOt').innerText = netOtHours.toFixed(1) + "h";
+        } else {
+            document.getElementById('actualOt').innerText = "0.0h";
+        }
+    }
+
+    function resetDefaults() {
+        document.getElementById('clockIn').value = "07:00";
+        document.getElementById('clockOut').value = "21:00";
+        document.getElementById('exStart').value = "00:00";
+        document.getElementById('exEnd').value = "00:00";
+        document.getElementById('desiredOt').value = "04:00";
+        calculate();
+    }
+
+    function clearAll() {
+        document.getElementById('clockIn').value = "";
+        document.getElementById('clockOut').value = "";
+        document.getElementById('exStart').value = "";
+        document.getElementById('exEnd').value = "";
+        document.getElementById('desiredOt').value = "";
+        document.getElementById('targetLeave').innerText = "--:--";
+        document.getElementById('maxLeave').innerText = "--:--";
+        document.getElementById('actualOt').innerText = "0.0h";
+    }
+
+    // Initial calculation on load
+    calculate();
+</script>
+
+</body>
+</html>
