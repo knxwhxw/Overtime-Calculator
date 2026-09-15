@@ -44,7 +44,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .brand-area {
@@ -101,6 +101,46 @@
             width: 18px;
             height: 18px;
             fill: currentColor;
+        }
+
+        /* Work Mode Toggle Switch */
+        .mode-toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 18, 42, 0.6);
+            border: 1px solid rgba(216, 180, 254, 0.2);
+            border-radius: 16px;
+            padding: 6px 8px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-btn-group {
+            display: flex;
+            width: 100%;
+            background: rgba(15, 10, 26, 0.5);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .toggle-option {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #c084fc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .toggle-option.active {
+            background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
         }
 
         /* Results Panel */
@@ -248,19 +288,27 @@
         </div>
     </div>
 
+    <!-- Mode Switcher -->
+    <div class="mode-toggle-container">
+        <div class="toggle-btn-group">
+            <div id="mode18" class="toggle-option active" onclick="setWorkMode('18')">18시 퇴근자</div>
+            <div id="mode17" class="toggle-option" onclick="setWorkMode('17')">17시 퇴근자</div>
+        </div>
+    </div>
+
     <!-- Results Panel -->
     <div class="results-panel">
         <div class="result-item">
-            <div class="result-label">희망 초과 달성 퇴근 시간</div>
+            <div class="result-label">희망 초과 달성</div>
             <div class="result-value purple-light" id="targetLeave">--:--</div>
         </div>
         <div class="result-item">
-            <div class="result-label">4our 달성 퇴근 시간</div>
+            <div class="result-label">4our 달성</div>
             <div class="result-value lavender" id="maxLeave">--:--</div>
         </div>
         <div class="result-item">
-            <div class="result-label">인정 초과 시간</div>
-            <div class="result-value accent" id="actualOt">0.0h</div>
+            <div class="result-label">인정 초과시간</div>
+            <div class="result-value accent" id="actualOt">00:00</div>
         </div>
     </div>
 
@@ -269,18 +317,18 @@
         <div class="input-row">
             <div class="input-group">
                 <label class="input-label">출근 시간</label>
-                <input type="text" id="clockIn" class="time-input" value="07:00" placeholder="HH:MM" oninput="calculate()">
+                <input type="text" id="clockIn" class="time-input" value="07:00" placeholder="HH:MM" oninput="updateInputState(); calculate();">
             </div>
             <div class="input-group">
                 <label class="input-label">퇴근 시간</label>
-                <input type="text" id="clockOut" class="time-input" value="21:00" placeholder="HH:MM" oninput="calculate()">
+                <input type="text" id="clockOut" class="time-input" value="21:00" placeholder="HH:MM" oninput="updateInputState(); calculate();">
             </div>
         </div>
 
         <div class="input-row">
             <div class="input-group">
                 <label class="input-label">제외 시작</label>
-                <input type="text" id="exStart" class="time-input" value="00:00" placeholder="HH:MM" oninput="calculate()">
+                <input type="text" id="exStart" class="time-input" value="00:00" placeholder="HH:MM" oninput="updateInputState(); calculate();">
             </div>
             <div class="input-group">
                 <label class="input-label">제외 종료</label>
@@ -291,7 +339,7 @@
         <div class="input-row full">
             <div class="input-group">
                 <label class="input-label">희망 초과 시간</label>
-                <input type="text" id="desiredOt" class="time-input" value="04:00" placeholder="HH:MM" oninput="calculate()">
+                <input type="text" id="desiredOt" class="time-input" value="04:00" placeholder="HH:MM" oninput="updateInputState(); calculate();">
             </div>
         </div>
     </div>
@@ -302,6 +350,67 @@
 </footer>
 
 <script>
+    let currentMode = '18';
+
+    // 각 모드별 입력값 상태 독립 저장
+    const modeData = {
+        '18': {
+            clockIn: '07:00',
+            clockOut: '21:00',
+            exStart: '00:00',
+            exEnd: '00:00',
+            desiredOt: '04:00'
+        },
+        '17': {
+            clockIn: '07:00',
+            clockOut: '20:00',
+            exStart: '00:00',
+            exEnd: '00:00',
+            desiredOt: '04:00'
+        }
+    };
+
+    function saveCurrentInputs() {
+        modeData[currentMode] = {
+            clockIn: document.getElementById('clockIn').value,
+            clockOut: document.getElementById('clockOut').value,
+            exStart: document.getElementById('exStart').value,
+            exEnd: document.getElementById('exEnd').value,
+            desiredOt: document.getElementById('desiredOt').value
+        };
+    }
+
+    function loadInputs(mode) {
+        const data = modeData[mode];
+        document.getElementById('clockIn').value = data.clockIn;
+        document.getElementById('clockOut').value = data.clockOut;
+        document.getElementById('exStart').value = data.exStart;
+        document.getElementById('exEnd').value = data.exEnd;
+        document.getElementById('desiredOt').value = data.desiredOt;
+    }
+
+    function updateInputState() {
+        saveCurrentInputs();
+    }
+
+    function setWorkMode(mode) {
+        if (currentMode === mode) return;
+        
+        saveCurrentInputs();
+        currentMode = mode;
+
+        if (mode === '18') {
+            document.getElementById('mode18').classList.add('active');
+            document.getElementById('mode17').classList.remove('active');
+        } else {
+            document.getElementById('mode17').classList.add('active');
+            document.getElementById('mode18').classList.remove('active');
+        }
+
+        loadInputs(mode);
+        calculate();
+    }
+
     function parseMinutes(timeStr) {
         if (!timeStr || !timeStr.includes(':')) return null;
         const parts = timeStr.split(':');
@@ -343,23 +452,29 @@
             let morningOtLimitStart = 0;
             let eveningOtStart = 0;
 
-            // 조건 1: 08:00 미만(07:59까지) 출근 시 (08:00까지 아침 인정, 18:00부터 저녁 인정)
-            // 조건 2: 08:00 이상 출근 시 (아침 인정 없음, 19:00부터 저녁 인정)
-            if (inMins < 480) {
-                morningOtLimitStart = 480; // 08:00
-                eveningOtStart = 1080;     // 18:00
+            if (currentMode === '18') {
+                if (inMins < 480) {
+                    morningOtLimitStart = 480;
+                    eveningOtStart = 1080;
+                } else {
+                    morningOtLimitStart = 0;   
+                    eveningOtStart = 1140;
+                }
             } else {
-                morningOtLimitStart = 0;   
-                eveningOtStart = 1140;     // 19:00
+                if (inMins < 480) {
+                    morningOtLimitStart = 480;
+                    eveningOtStart = 1020;
+                } else {
+                    morningOtLimitStart = 0;   
+                    eveningOtStart = 1080;
+                }
             }
 
-            // 아침 초과시간 인정분
             let morningOt = 0;
             if (inMins < morningOtLimitStart) {
                 morningOt = morningOtLimitStart - inMins;
             }
 
-            // 1. 희망 초과 달성 시각
             if (desiredMins !== null) {
                 const neededEveningOt = Math.max(0, desiredMins - morningOt);
                 let targetLeaveMins = eveningOtStart + neededEveningOt;
@@ -374,7 +489,6 @@
                 document.getElementById('targetLeave').innerText = "--:--";
             }
 
-            // 2. 4our 달성 시각 (상한 4시간 = 240분)
             const neededEvening4h = Math.max(0, 240 - morningOt);
             let maxLeaveMins = eveningOtStart + neededEvening4h;
 
@@ -385,7 +499,6 @@
 
             document.getElementById('maxLeave').innerText = formatTime(maxLeaveMins);
 
-            // 3. 실제 인정 초과시간 (최대 4시간)
             if (outMins !== null && outMins > inMins) {
                 let eveningOt = Math.max(0, outMins - eveningOtStart);
                 let totalOt = morningOt + eveningOt;
@@ -396,36 +509,34 @@
                     totalOt = Math.max(0, totalOt - (exInMorning + exInEvening));
                 }
 
-                let netOtHours = Math.min(4.0, totalOt / 60);
-                document.getElementById('actualOt').innerText = netOtHours.toFixed(1) + "h";
+                let netOtMins = Math.min(240, totalOt);
+                document.getElementById('actualOt').innerText = formatTime(netOtMins);
             } else {
-                document.getElementById('actualOt').innerText = "0.0h";
+                document.getElementById('actualOt').innerText = "00:00";
             }
         } else {
             document.getElementById('targetLeave').innerText = "--:--";
             document.getElementById('maxLeave').innerText = "--:--";
-            document.getElementById('actualOt').innerText = "0.0h";
+            document.getElementById('actualOt').innerText = "00:00";
         }
     }
 
     function resetDefaults() {
-        document.getElementById('clockIn').value = "07:00";
-        document.getElementById('clockOut').value = "21:00";
-        document.getElementById('exStart').value = "00:00";
-        document.getElementById('exEnd').value = "00:00";
-        document.getElementById('desiredOt').value = "04:00";
+        if (currentMode === '18') {
+            modeData['18'] = { clockIn: "07:00", clockOut: "21:00", exStart: "00:00", exEnd: "00:00", desiredOt: "04:00" };
+        } else {
+            modeData['17'] = { clockIn: "07:00", clockOut: "20:00", exStart: "00:00", exEnd: "00:00", desiredOt: "04:00" };
+        }
+        loadInputs(currentMode);
         calculate();
     }
 
     function clearAll() {
-        document.getElementById('clockIn').value = "";
-        document.getElementById('clockOut').value = "";
-        document.getElementById('exStart').value = "";
-        document.getElementById('exEnd').value = "";
-        document.getElementById('desiredOt').value = "";
+        modeData[currentMode] = { clockIn: "", clockOut: "", exStart: "", exEnd: "", desiredOt: "" };
+        loadInputs(currentMode);
         document.getElementById('targetLeave').innerText = "--:--";
         document.getElementById('maxLeave').innerText = "--:--";
-        document.getElementById('actualOt').innerText = "0.0h";
+        document.getElementById('actualOt').innerText = "00:00";
     }
 
     calculate();
