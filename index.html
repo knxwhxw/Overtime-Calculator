@@ -25,17 +25,17 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 16px;
+            padding: 12px;
         }
 
         .container {
             width: 100%;
             max-width: 480px;
-            background-color: rgba(36, 25, 56, 0.75);
+            background-color: rgba(36, 25, 56, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 28px;
-            padding: 24px 20px;
+            padding: 20px 16px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(181, 126, 255, 0.15);
             border: 1px solid rgba(216, 180, 254, 0.2);
         }
@@ -44,21 +44,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .brand-area {
             display: flex;
             flex-direction: row;
             align-items: baseline;
-            gap: 10px;
+            gap: 8px;
         }
 
         .brand-logo {
             font-family: "mina", mina, sans-serif;
             font-weight: 400;
             font-style: normal;
-            font-size: 36px;
+            font-size: 34px;
             color: #e9d5ff;
             line-height: 1;
             letter-spacing: 0.5px;
@@ -66,7 +66,7 @@
         }
 
         .brand-sub {
-            font-size: 14px;
+            font-size: 13px;
             color: #c084fc;
             font-weight: 400;
             letter-spacing: 1px;
@@ -81,8 +81,8 @@
             background-color: rgba(192, 132, 252, 0.12);
             border: 1px solid rgba(216, 180, 254, 0.2);
             color: #d8b4fe;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -98,8 +98,8 @@
         }
 
         .icon-btn svg {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             fill: currentColor;
         }
 
@@ -128,8 +128,8 @@
             flex: 1;
             text-align: center;
             padding: 8px 0;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             color: #c084fc;
             border-radius: 8px;
             cursor: pointer;
@@ -143,99 +143,134 @@
             box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
         }
 
-        /* Top Target OT Input Banner */
-        .target-ot-banner {
-            background: rgba(26, 18, 42, 0.6);
-            border: 1px solid rgba(216, 180, 254, 0.2);
-            border-radius: 16px;
-            padding: 10px 14px;
+        /* Target OT Card (희망초과시간) */
+        .target-ot-card {
+            background: rgba(26, 18, 42, 0.65);
+            border: 1px solid rgba(216, 180, 254, 0.25);
+            border-radius: 18px;
+            padding: 12px;
             margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .target-ot-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
-            flex-wrap: wrap;
         }
 
         .target-ot-label {
-            font-size: 13px;
+            font-size: 14px;
             color: #d8b4fe;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* Quick Preset Buttons (1h~6h) */
-        .preset-btn-group {
-            display: flex;
-            gap: 3px;
+        .target-ot-body {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* 1~3h, 4~6h 버튼 크기 축소 (글자 크기에 맞게 패딩 조절) */
+        .preset-btn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
         }
 
         .preset-btn {
             background: rgba(192, 132, 252, 0.15);
-            border: 1px solid rgba(216, 180, 254, 0.25);
-            color: #e9d5ff;
-            border-radius: 6px;
-            padding: 3px 5px;
-            font-size: 11px;
-            font-weight: 600;
+            border: 1px solid rgba(216, 180, 254, 0.3);
+            color: #f3e8ff;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4px 0; /* 슬림한 패딩 적용 */
         }
 
-        .preset-btn:hover {
-            background: rgba(192, 132, 252, 0.35);
+        .preset-btn:active, .preset-btn:hover {
+            background: rgba(192, 132, 252, 0.4);
+            border-color: #c084fc;
             color: #ffffff;
         }
 
-        /* Compact Dial Wheel Selector */
-        .dial-container {
+        /* 전체 감싸는 외부 테두리 삭제 (투명 배경 및 border 제거) */
+        .dial-container, .dial-container-tall {
             display: flex;
             align-items: center;
-            gap: 1px;
-            background-color: rgba(15, 10, 26, 0.7);
-            border: 1px solid rgba(216, 180, 254, 0.25);
-            border-radius: 12px;
-            padding: 3px 5px;
-        }
-
-        .dial-container:focus-within {
-            border-color: #c084fc;
-            box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
-        }
-
-        .dial-select {
+            justify-content: space-between;
+            gap: 2px;
             background: transparent;
             border: none;
+            box-shadow: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .dial-container-tall {
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        /* 개별 숫자 버튼 고유 스타일만 유지 */
+        .dial-select-btn {
+            background: rgba(192, 132, 252, 0.15);
+            border: 1px solid rgba(216, 180, 254, 0.3);
+            border-radius: 8px;
             color: #ffffff;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 17px;
+            font-weight: 800;
             outline: none;
             cursor: pointer;
             text-align-last: center;
-            padding: 2px 0px;
+            padding: 6px 0;
+            flex: 1;
             appearance: none;
             -webkit-appearance: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .dial-select option {
-            background-color: #1a122a;
+        .dial-container-tall .dial-select-btn {
+            font-size: 17px;
+            padding: 6px 0;
+        }
+
+        .dial-select-btn:focus, .dial-select-btn:active {
+            background: rgba(192, 132, 252, 0.35);
+            border-color: #e879f9;
+        }
+
+        .dial-select-btn option {
+            background-color: #181024;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 8px;
         }
 
         .dial-colon {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 800;
             color: #c084fc;
             margin: 0 1px;
         }
 
         /* Results Panel */
         .results-panel {
-            background: linear-gradient(145deg, rgba(58, 41, 88, 0.6), rgba(38, 25, 60, 0.8));
+            background: linear-gradient(145deg, rgba(58, 41, 88, 0.65), rgba(38, 25, 60, 0.85));
             border: 1px solid rgba(216, 180, 254, 0.25);
             border-radius: 20px;
-            padding: 16px 14px 12px 14px;
-            margin-bottom: 16px;
+            padding: 14px 12px 10px 12px;
+            margin-bottom: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -246,13 +281,12 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             width: 100%;
-            margin-bottom: 10px;
-            position: relative;
+            margin-bottom: 8px;
         }
 
         .result-box {
             text-align: center;
-            padding: 0 6px;
+            padding: 0 4px;
         }
 
         .result-box:first-child {
@@ -282,7 +316,7 @@
             width: 90%;
             height: 1px;
             background-color: rgba(216, 180, 254, 0.15);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .sub-result-row {
@@ -293,24 +327,18 @@
             color: rgba(216, 180, 254, 0.6);
         }
 
-        .sub-result-item {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
         .sub-result-value {
             font-size: 12px;
             font-weight: 600;
             color: #c084fc;
         }
 
-        /* Inputs Panel - Compact Grid */
+        /* Inputs Panel */
         .inputs-panel {
             background: rgba(26, 18, 42, 0.5);
             border: 1px solid rgba(216, 180, 254, 0.15);
-            border-radius: 18px;
-            padding: 14px;
+            border-radius: 20px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -325,13 +353,13 @@
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
         }
 
         .input-label {
             font-size: 12px;
             color: #d8b4fe;
-            font-weight: 500;
+            font-weight: 600;
             padding-left: 2px;
         }
 
@@ -370,22 +398,28 @@
         </div>
     </div>
 
-    <!-- Top Target OT Input Banner + Quick Presets (1h~6h) -->
-    <div class="target-ot-banner">
-        <span class="target-ot-label">희망 초과 시간</span>
-        <div class="preset-btn-group">
-            <button class="preset-btn" onclick="setPresetOt('01:00')">1h</button>
-            <button class="preset-btn" onclick="setPresetOt('02:00')">2h</button>
-            <button class="preset-btn" onclick="setPresetOt('03:00')">3h</button>
-            <button class="preset-btn" onclick="setPresetOt('04:00')">4h</button>
-            <button class="preset-btn" onclick="setPresetOt('05:00')">5h</button>
-            <button class="preset-btn" onclick="setPresetOt('06:00')">6h</button>
+    <!-- Target OT Card -->
+    <div class="target-ot-card">
+        <div class="target-ot-header">
+            <span class="target-ot-label">희망 초과 시간</span>
         </div>
-        <div class="dial-container">
-            <select id="desiredOt_h" class="dial-select" onchange="updateInputState(); calculate();"></select>
-            <span class="dial-colon">:</span>
-            <select id="desiredOt_m1" class="dial-select" onchange="updateInputState(); calculate();"></select>
-            <select id="desiredOt_m2" class="dial-select" onchange="updateInputState(); calculate();"></select>
+        <div class="target-ot-body">
+            <div class="preset-btn-grid">
+                <button class="preset-btn" onclick="setPresetOt('01:00')">1h</button>
+                <button class="preset-btn" onclick="setPresetOt('02:00')">2h</button>
+                <button class="preset-btn" onclick="setPresetOt('03:00')">3h</button>
+                <button class="preset-btn" onclick="setPresetOt('04:00')">4h</button>
+                <button class="preset-btn" onclick="setPresetOt('05:00')">5h</button>
+                <button class="preset-btn" onclick="setPresetOt('06:00')">6h</button>
+            </div>
+            <!-- 희망초과시간 4개 버튼 다이얼 (H1 H2 : M1 M2) -->
+            <div class="dial-container-tall">
+                <select id="desiredOt_h1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                <select id="desiredOt_h2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                <span class="dial-colon">:</span>
+                <select id="desiredOt_m1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                <select id="desiredOt_m2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+            </div>
         </div>
     </div>
 
@@ -416,26 +450,28 @@
         </div>
     </div>
 
-    <!-- Inputs Panel (Horizontal Pairs) -->
+    <!-- Inputs Panel (출근/퇴근/제외시작/제외종료: H1 H2 : M1 M2 다이얼) -->
     <div class="inputs-panel">
         <!-- 출근시간 - 퇴근시간 -->
         <div class="input-row">
             <div class="input-group">
                 <label class="input-label">출근 시간</label>
                 <div class="dial-container">
-                    <select id="clockIn_h" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockIn_h1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockIn_h2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                     <span class="dial-colon">:</span>
-                    <select id="clockIn_m1" class="dial-select" onchange="updateInputState(); calculate();"></select>
-                    <select id="clockIn_m2" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockIn_m1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockIn_m2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                 </div>
             </div>
             <div class="input-group">
                 <label class="input-label">퇴근 시간</label>
                 <div class="dial-container">
-                    <select id="clockOut_h" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockOut_h1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockOut_h2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                     <span class="dial-colon">:</span>
-                    <select id="clockOut_m1" class="dial-select" onchange="updateInputState(); calculate();"></select>
-                    <select id="clockOut_m2" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockOut_m1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="clockOut_m2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                 </div>
             </div>
         </div>
@@ -445,19 +481,21 @@
             <div class="input-group">
                 <label class="input-label">제외 시작</label>
                 <div class="dial-container">
-                    <select id="exStart_h" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="exStart_h1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="exStart_h2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                     <span class="dial-colon">:</span>
-                    <select id="exStart_m1" class="dial-select" onchange="updateInputState(); calculate();"></select>
-                    <select id="exStart_m2" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="exStart_m1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="exStart_m2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                 </div>
             </div>
             <div class="input-group">
                 <label class="input-label">제외 종료</label>
                 <div class="dial-container">
-                    <select id="exEnd_h" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="exEnd_h1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="exEnd_h2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                     <span class="dial-colon">:</span>
-                    <select id="exEnd_m1" class="dial-select" onchange="updateInputState(); calculate();"></select>
-                    <select id="exEnd_m2" class="dial-select" onchange="updateInputState(); calculate();"></select>
+                    <select id="exEnd_m1" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
+                    <select id="exEnd_m2" class="dial-select-btn" onchange="updateInputState(); calculate();"></select>
                 </div>
             </div>
         </div>
@@ -500,48 +538,41 @@
         }
     }
 
-    function populateHourOptions(selectId) {
-        const select = document.getElementById(selectId);
-        select.innerHTML = '';
-        for (let i = 0; i < 24; i++) {
-            const val = String(i).padStart(2, '0');
-            const opt = document.createElement('option');
-            opt.value = val;
-            opt.textContent = val;
-            select.appendChild(opt);
-        }
-    }
-
     function initDials() {
         const fields = ['clockIn', 'clockOut', 'exStart', 'exEnd', 'desiredOt'];
         fields.forEach(field => {
-            populateHourOptions(field + '_h');
-            populateDialOptions(field + '_m1', 6);
-            populateDialOptions(field + '_m2', 10);
+            populateDialOptions(field + '_h1', 3);  // 시간 십의자리 (0~2)
+            populateDialOptions(field + '_h2', 10); // 시간 일의자리 (0~9)
+            populateDialOptions(field + '_m1', 6);  // 분 십의자리 (0~5)
+            populateDialOptions(field + '_m2', 10); // 분 일의자리 (0~9)
         });
     }
 
     function setDialValue(prefix, timeStr) {
         if (!timeStr || !timeStr.includes(':')) return;
         const [h, m] = timeStr.split(':');
-        const hSelect = document.getElementById(prefix + '_h');
+        const hPadded = h.padStart(2, '0');
+        const mPadded = m.padStart(2, '0');
+
+        const h1Select = document.getElementById(prefix + '_h1');
+        const h2Select = document.getElementById(prefix + '_h2');
         const m1Select = document.getElementById(prefix + '_m1');
         const m2Select = document.getElementById(prefix + '_m2');
-        
-        if (hSelect) hSelect.value = h.padStart(2, '0');
-        if (m1Select && m2Select) {
-            const mPadded = m.padStart(2, '0');
-            m1Select.value = mPadded[0];
-            m2Select.value = mPadded[1];
-        }
+
+        if (h1Select) h1Select.value = hPadded[0];
+        if (h2Select) h2Select.value = hPadded[1];
+        if (m1Select) m1Select.value = mPadded[0];
+        if (m2Select) m2Select.value = mPadded[1];
     }
 
     function getDialValue(prefix) {
-        const hSelect = document.getElementById(prefix + '_h');
+        const h1Select = document.getElementById(prefix + '_h1');
+        const h2Select = document.getElementById(prefix + '_h2');
         const m1Select = document.getElementById(prefix + '_m1');
         const m2Select = document.getElementById(prefix + '_m2');
-        if (!hSelect || !m1Select || !m2Select) return '00:00';
-        return `${hSelect.value}:${m1Select.value}${m2Select.value}`;
+        
+        if (!h1Select || !h2Select || !m1Select || !m2Select) return '00:00';
+        return `${h1Select.value}${h2Select.value}:${m1Select.value}${m2Select.value}`;
     }
 
     function setPresetOt(timeStr) {
